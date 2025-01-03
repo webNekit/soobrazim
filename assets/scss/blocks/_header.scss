@@ -1,0 +1,65 @@
+@use "../helpers" as *;
+.header {
+  position: static;
+  top: 0;
+  left: 0;
+  right: 0;
+  &__promo {
+    padding-block: rem(14);
+  }
+  &__body {
+    padding-block: fluid(24, 16);
+    background-color: hsl(var(--card));
+    &-inner {
+      display: flex;
+      align-items: center;
+      column-gap: rem(32);
+    }
+  }
+  &__overlay {
+    @include mobile-above {
+      display: contents;
+    }
+    @include mobile {
+      position: fixed;
+      z-index: 90;
+      inset: 0;
+      padding: fluid(42, 24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      row-gap: rem(36);
+      transition-duration: var(--transition-duration);
+      background-color: hsl(var(--background));
+      &:not(.is-active) {
+        @include hide;
+        translate: 100%;
+      }
+    }
+  }
+  &__contact-button {
+    @include tablet {
+      max-width: rem(430);
+      width: 100%;
+      padding-block: rem(16);
+    }
+  }
+  &__burger-button {
+    --size: #{rem(42)};
+    @include square(var(--size));
+
+    z-index: 90;
+    flex-shrink: 0;
+    margin-inline-start: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    border: rem(1) solid hsl(var(--border));
+    background-color: hsl(var(--secondary));
+    svg {
+      stroke: hsl(var(--foreground));
+    }
+  }
+}

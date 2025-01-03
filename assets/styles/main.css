@@ -1,0 +1,672 @@
+@charset "UTF-8";
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  margin-left: 0;
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+  --paragraphMarginBottom: 24px;
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+  Упрощаем работу с изображениями и видео
+ */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  height: 100%;
+  /**
+    Убираем скачок интерфейса по горизонтали
+    при появлении / исчезновении скроллбара
+   */
+  scrollbar-gutter: stable;
+}
+
+/**
+  Плавный скролл
+ */
+html,
+:has(:target) {
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  min-height: 100%;
+  /**
+    Унифицированный интерлиньяж
+   */
+  line-height: 1.5;
+}
+
+/**
+  Нормализация высоты элемента ссылки при его инспектировании в DevTools
+ */
+a:where([class]) {
+  display: inline-flex;
+}
+
+/**
+  Курсор-рука при наведении на элемент
+ */
+button,
+label {
+  cursor: pointer;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут fill со значением 'none' или начинается с 'url')
+ */
+:where([fill]:not([fill=none],
+[fill^=url])) {
+  fill: currentColor;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут stroke со значением 'none')
+ */
+:where([stroke]:not([stroke=none],
+[stroke^=url])) {
+  stroke: currentColor;
+}
+
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+  Приведение рамок таблиц в классический 'collapse' вид
+ */
+:where(table) {
+  border-collapse: collapse;
+  border-color: currentColor;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/** fonts Roboto */
+@font-face {
+  font-family: "Roboto";
+  src: url("../fonts/Roboto/Roboto-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("../fonts/Roboto/Roboto-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("../fonts/Roboto/Roboto-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("../fonts/Roboto/Roboto-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("../fonts/Roboto/Roboto-Black.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+  font-style: normal;
+}
+/** fonts GolosText */
+@font-face {
+  font-family: "Golos Text";
+  src: url("../fonts/GolosText/GolosText-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Golos Text";
+  src: url("../fonts/GolosText/GolosText-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Golos Text";
+  src: url("../fonts/GolosText/GolosText-DemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Golos Text";
+  src: url("../fonts/GolosText/GolosText-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --font-family-primary: "Roboto", sans-serif;
+    --font-family-secondary: "Golos Text", sans-serif;
+    --background: 229, 57%, 100%;
+    --foreground: 229, 63%, 4%;
+    --muted: 240, 4.76%, 95.88%;
+    --muted-foreground: 229, 10%, 37%;
+    --popover: 0, 0%, 99%;
+    --popover-foreground: 229, 63%, 3%;
+    --card: 0, 0%, 99%;
+    --card-foreground: 229, 63%, 3%;
+    --border: 220, 13%, 91%;
+    --input: 220, 13%, 91%;
+    --primary: 240, 5.9%, 10%;
+    --primary-foreground: 0, 0%, 100%;
+    --secondary: 229, 20%, 90%;
+    --secondary-foreground: 229, 20%, 30%;
+    --accent: 229, 28%, 85%;
+    --accent-foreground: 229, 28%, 25%;
+    --destructive: 3, 100%, 50%;
+    --destructive-foreground: 3, 0%, 100%;
+    --ring: 229, 100%, 62%;
+    --chart-1: 240, 5.9%, 10%;
+    --chart-2: 229, 20%, 90%;
+    --chart-3: 229, 28%, 85%;
+    --chart-4: 229, 20%, 93%;
+    --chart-5: 240, 8.9%, 10%;
+    --radius: 0.375rem;
+    --hover-opacity: 0.8;
+    --container-width: 100rem;
+    --container-padding-inline: 1.25rem;
+    --transition-duration: 200ms;
+  }
+}
+@media (prefers-color-scheme: light) and (width <= 90.06125rem) {
+  :root {
+    --container-width: 80rem;
+    --container-padding-inline: 0.9375rem;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --font-family-primary: "Roboto", sans-serif;
+    --font-family-secondary: "Golos Text", sans-serif;
+    --background: 229, 41%, 4%;
+    --foreground: 229, 23%, 99%;
+    --muted: 229, 12%, 14%;
+    --muted-foreground: 229, 10%, 63%;
+    --popover: 229, 41%, 5%;
+    --popover-foreground: 0, 0%, 100%;
+    --card: 229, 41%, 5%;
+    --card-foreground: 0, 0%, 100%;
+    --border: 215, 27.9%, 16.9%;
+    --input: 215, 27.9%, 16.9%;
+    --primary: 229, 0%, 90%;
+    --primary-foreground: 0, 0%, 0%;
+    --secondary: 229, 14%, 8%;
+    --secondary-foreground: 229, 14%, 68%;
+    --accent: 229, 23%, 17%;
+    --accent-foreground: 229, 23%, 77%;
+    --destructive: 3, 89%, 54%;
+    --destructive-foreground: 0, 0%, 100%;
+    --ring: 229, 100%, 62%;
+    --chart-1: 229, 0%, 90%;
+    --chart-2: 229, 14%, 8%;
+    --chart-3: 229, 23%, 17%;
+    --chart-4: 229, 14%, 11%;
+    --chart-5: 229, 3%, 90%;
+    --radius: 0.375rem;
+    --hover-opacity: 0.8;
+    --container-width: 100rem;
+    --container-padding-inline: 1.25rem;
+    --transition-duration: 200ms;
+  }
+}
+@media (prefers-color-scheme: dark) and (width <= 90.06125rem) {
+  :root {
+    --container-width: 80rem;
+    --container-padding-inline: 0.9375rem;
+  }
+}
+.container {
+  max-width: calc(var(--container-width) * var(--container-padding-inline) * 2);
+  padding-inline: var(--container-padding-inline);
+  margin-inline: auto;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+@media (width <= 48.06125rem) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (width > 48.06125rem) {
+  .visible-mobile {
+    display: none !important;
+  }
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  font-family: var(--font-family-secondary);
+  color: hsl(var(--primary));
+  font-weight: 700;
+}
+
+h1, .h1 {
+  font-size: clamp(3rem, 2.6053571429rem + 1.619047619vw, 4.0625rem);
+}
+
+h2, .h2 {
+  font-size: clamp(1.75rem, 1.1928571429rem + 2.2857142857vw, 3.25rem);
+}
+
+h3, .h3 {
+  font-size: clamp(1.5rem, 1.0821428571rem + 1.7142857143vw, 2.625rem);
+  font-weight: 500;
+}
+
+h4, .h4 {
+  font-size: clamp(1.25rem, 0.9714285714rem + 1.1428571429vw, 2rem);
+  font-weight: 500;
+}
+
+h5, .h5 {
+  font-size: clamp(1rem, 0.8607142857rem + 0.5714285714vw, 1.375rem);
+  font-weight: 500;
+}
+
+h6, .h6 {
+  font-size: clamp(0.875rem, 0.7821428571rem + 0.380952381vw, 1.125rem);
+  font-weight: 500;
+}
+
+html.is-lock {
+  overflow: hidden;
+}
+
+body {
+  font-size: clamp(0.875rem, 0.7821428571rem + 0.380952381vw, 1.125rem);
+  font-family: var(--font-family-primary);
+  line-height: 1.15;
+  font-weight: 400;
+  max-width: 100vw;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+}
+
+a,
+button,
+label,
+input,
+textarea,
+select,
+svg * {
+  transition-duration: var(--transition-duration);
+}
+
+a {
+  color: inherit;
+}
+@media (any-hover: hover) {
+  a:hover {
+    color: hsl(var(--accent-foreground));
+  }
+}
+@media (any-hover: none) {
+  a:active {
+    color: hsl(var(--accent-foreground));
+  }
+}
+a[class] {
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 0.125rem dashed var(--input);
+  outline-offset: 0.25rem;
+  transition-duration: 0s !important;
+}
+
+/** блоки и компоненты */
+.button {
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  padding-block: clamp(0.625rem, 0.4857142857rem + 0.5714285714vw, 1rem);
+  padding-inline: clamp(0.875rem, 0.7821428571rem + 0.380952381vw, 1.125rem);
+  border-radius: var(--radius);
+  background-color: transparent;
+  transition: color 200ms linear, background-color 200ms linear;
+}
+@media (width <= 90.06125rem) {
+  .button {
+    font-size: 0.875rem;
+  }
+}
+.button--primary {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+@media (any-hover: hover) {
+  .button--primary:hover {
+    background-color: hsl(var(--primary), var(--hover-opacity));
+  }
+}
+@media (any-hover: none) {
+  .button--primary:active {
+    background-color: hsl(var(--primary), var(--hover-opacity));
+  }
+}
+.button--secondary {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+@media (any-hover: hover) {
+  .button--secondary:hover {
+    background-color: hsl(var(--accent));
+  }
+}
+@media (any-hover: none) {
+  .button--secondary:active {
+    background-color: hsl(var(--accent));
+  }
+}
+.button--ghost {
+  background-color: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+}
+@media (any-hover: hover) {
+  .button--ghost:hover {
+    background-color: hsl(var(--accent));
+  }
+}
+@media (any-hover: none) {
+  .button--ghost:active {
+    background-color: hsl(var(--accent));
+  }
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.625rem;
+}
+.icon::before {
+  --size: 1.5rem;
+  width: var(--size);
+  height: var(--size);
+  content: "";
+  flex-shrink: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+@media (width <= 90.06125rem) {
+  .icon::before {
+    --size: 1.25rem;
+  }
+}
+.icon--eye::before {
+  background-image: var(--icon);
+}
+
+.header {
+  position: static;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.header__promo {
+  padding-block: 0.875rem;
+}
+.header__body {
+  padding-block: clamp(1rem, 0.8142857143rem + 0.7619047619vw, 1.5rem);
+  background-color: hsl(var(--card));
+}
+.header__body-inner {
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+}
+@media (width > 48.06125rem) {
+  .header__overlay {
+    display: contents;
+  }
+}
+@media (width <= 48.06125rem) {
+  .header__overlay {
+    position: fixed;
+    z-index: 90;
+    inset: 0;
+    padding: clamp(1.5rem, 1.0821428571rem + 1.7142857143vw, 2.625rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 2.25rem;
+    transition-duration: var(--transition-duration);
+    background-color: hsl(var(--background));
+  }
+  .header__overlay:not(.is-active) {
+    opacity: 0;
+    visibility: hidden;
+    translate: 100%;
+  }
+}
+@media (width <= 64.06125rem) {
+  .header__contact-button {
+    max-width: 26.875rem;
+    width: 100%;
+    padding-block: 1rem;
+  }
+}
+.header__burger-button {
+  --size: 2.625rem;
+  width: var(--size);
+  height: var(--size);
+  z-index: 90;
+  flex-shrink: 0;
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  border: 0.0625rem solid hsl(var(--border));
+  background-color: hsl(var(--secondary));
+}
+.header__burger-button svg {
+  stroke: hsl(var(--foreground));
+}
+
+.logo {
+  flex-shrink: 0;
+}
+
+@media (width > 48.06125rem) {
+  .navbar-menu {
+    flex-grow: 1;
+  }
+}
+@media (width <= 48.06125rem) {
+  .navbar-menu {
+    overflow-y: auto;
+  }
+}
+.navbar-menu__list {
+  display: flex;
+  align-items: center;
+  column-gap: 1.5rem;
+}
+@media (width <= 48.06125rem) {
+  .navbar-menu__list {
+    display: grid;
+    row-gap: 1.5rem;
+  }
+}
+@media (width <= 48.06125rem) {
+  .navbar-menu__list-item {
+    display: flex;
+    justify-content: center;
+  }
+}
+.navbar-menu__list-link {
+  font-weight: 400;
+  font-size: 0.9375rem;
+  text-align: center;
+  color: hsl(var(--muted-foreground));
+}
+@media (any-hover: hover) {
+  .navbar-menu__list-link:hover {
+    color: hsl(var(--accent-foreground));
+  }
+}
+@media (any-hover: none) {
+  .navbar-menu__list-link:active {
+    color: hsl(var(--accent-foreground));
+  }
+}
+@media (width <= 48.06125rem) {
+  .navbar-menu__list-link {
+    font-size: 1rem;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */
